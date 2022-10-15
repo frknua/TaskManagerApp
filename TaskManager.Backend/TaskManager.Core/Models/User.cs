@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace TaskManager.Core
+namespace TaskManager.Core.Models
 {
     public class User
     {

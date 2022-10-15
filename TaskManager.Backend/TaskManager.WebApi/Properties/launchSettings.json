@@ -18,7 +18,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DATABASE_NAME": "TaskManagerDb",
-        "USERS_COLLECTION_NAME": "Users"
+        "USERS_COLLECTION_NAME": "Users",
+        "WORKS_COLLECTION_NAME": "Works"
       }
     },
     "IIS Express": {
@@ -28,7 +29,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DATABASE_NAME": "TaskManagerDb",
-        "USERS_COLLECTION_NAME": "Users"
+        "USERS_COLLECTION_NAME": "Users",
+        "WORKS_COLLECTION_NAME": "Works"
       }
     }
   }

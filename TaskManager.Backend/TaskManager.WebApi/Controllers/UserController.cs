@@ -4,7 +4,7 @@ using TaskManager.Core;
 namespace TaskManager.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("user/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
@@ -13,6 +13,10 @@ namespace TaskManager.WebApi.Controllers
             _userServices = userServices;
         }
 
+        /// <summary>
+        /// Returns all users.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetUsers()
         {
