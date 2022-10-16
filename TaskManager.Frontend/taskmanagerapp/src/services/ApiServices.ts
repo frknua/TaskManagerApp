@@ -1,6 +1,7 @@
 import AxiosServices from './AxiosServices';
 import {Configurations} from '../configurations/Configurations';
 import { User } from '../models/User';
+import { Work } from '../models/Work';
 
 const axiosServices = new AxiosServices()
 
@@ -20,4 +21,13 @@ export default class ApiServices {
     return axiosServices.get(Configurations.Work, {});
   }
   
+  SaveWork(work: Work)
+  {
+    return axiosServices.post(Configurations.Work, work);
+  }
+
+  DeleteWork(id: string)
+  {
+    return axiosServices.delete(Configurations.Work + "/"+id,{});
+  }
 }
