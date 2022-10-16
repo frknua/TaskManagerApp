@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using TaskManager.Core;
 using TaskManager.Core.Models;
+using TaskManager.WebApi.Hubs;
 
 namespace TaskManager.WebApi.Controllers
 {
@@ -10,15 +12,19 @@ namespace TaskManager.WebApi.Controllers
     public class WorkController : ControllerBase
     {
         private readonly IWorkService _workService;
-        public WorkController(IWorkService workService)
+        private IHubContext<WorkHub, IWorkHubClient> _workHub;
+        public WorkController(IWorkService workService, IHubContext<WorkHub, IWorkHubClient> workHub)
         {
             _workService = workService;
+            _workHub = workHub;
         }
 
         [HttpGet]
         public IActionResult GetWorks()
         {
-            return Ok(_workService.GetWorks());
+            var result = _workService.GetWorks();
+            _workHub.Clients.All.SendWorksToUsers(result);
+            return Ok(result);
         }
 
         [HttpGet("{id}", Name = "GetWork")]
