@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 
-const Auth = (props: any) => {
+const Login = (props: any) => {
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
 
@@ -42,4 +42,4 @@ const Auth = (props: any) => {
     </div>
   )
 }
-export default Auth;
+export default Login;
