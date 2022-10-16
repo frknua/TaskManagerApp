@@ -10,6 +10,6 @@ namespace TaskManager.Core
     public interface IUserServices
     {
         List<User> GetUsers();
-        User GetUser(string id);
+        User GetUser(User user);
     }
 }

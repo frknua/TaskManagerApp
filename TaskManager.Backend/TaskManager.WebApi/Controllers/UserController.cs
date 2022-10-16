@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Core;
+using TaskManager.Core.Models;
 
 namespace TaskManager.WebApi.Controllers
 {
@@ -23,10 +24,10 @@ namespace TaskManager.WebApi.Controllers
             return Ok(_userServices.GetUsers());
         }
 
-        [HttpGet("{id}", Name = "GetUser")]
-        public IActionResult GetUser(string id)
+        [HttpPost]
+        public IActionResult GetUser(User user)
         {
-            return Ok(_userServices.GetUser(id));
+            return Ok(_userServices.GetUser(user));
         }
     }
 }

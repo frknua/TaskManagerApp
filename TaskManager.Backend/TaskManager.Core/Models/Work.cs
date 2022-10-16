@@ -16,6 +16,12 @@ namespace TaskManager.Core.Models
         public string Description { get; set; }
         public string CreateDate { get; set; }
         public string DeadLineDate { get; set; }
-        public string UserTypeId { get; set; }
+        public Owner Owner { get; set; }
+    }
+
+    public class Owner
+    {
+        public string UserId { get; set; }
+        public string UserName { get; set; }
     }
 }

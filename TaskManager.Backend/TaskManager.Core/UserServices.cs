@@ -15,7 +15,7 @@ namespace TaskManager.Core
         {
             _users = dbClient.GetUsersCollection();
         }
-        public User GetUser(string id) => _users.Find(user => user.Id == id).First();
+        public User GetUser(User user) => _users.Find(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
 
         public List<User> GetUsers() => _users.Find(user => true).ToList();
     }
