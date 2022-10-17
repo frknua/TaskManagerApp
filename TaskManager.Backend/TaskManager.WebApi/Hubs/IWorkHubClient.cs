@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using TaskManager.Core.Models;
-using TaskManager.WebApi.Hub;
+﻿using TaskManager.Core.Models;
 
 namespace TaskManager.WebApi.Hubs
 {

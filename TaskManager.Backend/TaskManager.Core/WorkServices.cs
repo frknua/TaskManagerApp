@@ -1,14 +1,9 @@
 ﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskManager.Core.Models;
 
 namespace TaskManager.Core
 {
-    public class WorkServices: IWorkService
+    public class WorkServices : IWorkService
     {
         private readonly IMongoCollection<Work> _works;
         public WorkServices(IDbClient dbClient)
@@ -34,8 +29,18 @@ namespace TaskManager.Core
         public Work UpdateWork(Work work)
         {
             GetWork(work.Id);
-            _works.ReplaceOne(b => b.Id == work.Id, work);
-            return work;
+            var userWorks = GetWorksByUserId(work.Owner.UserId);
+            if (userWorks.Count() < 2)
+            {
+                _works.ReplaceOne(b => b.Id == work.Id, work);
+                return work;
+            }
+            return null;
+        }
+
+        public List<Work> GetWorksByUserId(string userId)
+        {
+            return _works.Find(works => true && works.Owner.UserId == userId).ToList();
         }
     }
 }

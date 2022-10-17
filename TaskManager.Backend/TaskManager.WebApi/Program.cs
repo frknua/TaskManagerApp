@@ -15,7 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<TaskManagerDbConfig>(builder.Configuration);
 builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
-builder.Services.AddCors(options => {
+builder.Services.AddCors(options =>
+{
     options.AddPolicy("CORSPolicy", builder => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((hosts) => true));
 });
 var app = builder.Build();

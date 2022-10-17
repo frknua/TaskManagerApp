@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using TaskManager.Core;
 using TaskManager.Core.Models;
@@ -50,7 +49,12 @@ namespace TaskManager.WebApi.Controllers
         [HttpPut]
         public IActionResult UpdateWork(Work work)
         {
-            return Ok(_workService.UpdateWork(work));
+            var result = _workService.UpdateWork(work);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound("Workers should have to claim maximum 2 tasks");
         }
     }
 }
