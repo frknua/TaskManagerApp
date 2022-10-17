@@ -38,3 +38,9 @@ label {
   font-weight: 600;
   color: rgb(34, 34, 34);
 }
+
+.customError{
+  color: #dc3545;
+  font-weight: 400;
+  font-size: .875em;
+}

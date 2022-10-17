@@ -5,44 +5,37 @@ import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { User } from '../models/User';
 import AddWork from './AddWork';
 import { Work } from '../models/Work';
+import { Configurations } from '../configurations/Configurations';
 const apiServices = new ApiServices();
 
 const WorkList = (props:any) => {
   const [works, setWorks] = useState([]);
-  const [user, setUser] = useState();  
   const [showModal, setModal] = useState(false);
   useEffect(() => {
     joinRoom();
     getWorks();
-    setUser(props.currentUser);
   }, []);
 
   const getWorks = async () => 
   {
     try {
       apiServices.GetAllWorks()
-        .then((data:any) => {
-          console.log('Works : ', data);
+        .then((data:any) => {       
           setWorks(data.data);
         })
-        .catch((error: any) => {
-          console.log('Error : ', error);      
-        })      
-    } catch (e) {
-      console.log('Error: ', e);
-    }
+        .catch((error: any) => {})      
+    } catch (e) {}
   }
 
   const joinRoom = async () => {
     try {
       const connection = new HubConnectionBuilder()
-        .withUrl("https://localhost:7282/works")
+        .withUrl(Configurations.Hub)
         .configureLogging(LogLevel.Information)
         .build();
       
       connection.on("SendWorksToUsers", (works) => {
         setWorks(works);
-        console.log(works);
       });
 
       await connection.start().then(() => console.log('Connection started!'));
@@ -52,13 +45,10 @@ const WorkList = (props:any) => {
     }
   }
   const saveWork = (work: Work) => {
-    console.log("saved work:",work);
-    //work.Owner = {UserId: props.currentUser.id, UserName: props.currentUser.name};
     work.Owner = {};
     try {
       apiServices.SaveWork(work)
         .then((data:any) => {
-          console.log('saved Work! : ', data);
           getWorks();
         })
         .catch((error: any) => {
@@ -71,13 +61,21 @@ const WorkList = (props:any) => {
   const deleteWork = (id:string) => {
     apiServices.DeleteWork(id)
         .then((data:any) => {
-          console.log('deleted Work! : ', data);
           getWorks();
         })
         .catch((error: any) => {
           console.log('Error : ', error);      
         })  
   }
+  const assignWork = (work:Work) => {
+    work.Owner = {UserId: props.currentUser.id, UserName: props.currentUser.name};
+    apiServices.UpdateWork(work)
+    .then(() => getWorks())
+    .catch((error: any) => {
+      alert(error.response.data);     
+    })  
+  }
+
   return (
     <div>
     {   
@@ -111,18 +109,25 @@ const WorkList = (props:any) => {
               <td>
                 {
                   !item.owner.userName && props.currentUser.userType!="Admin" &&
-                  <button className="btn btn-primary btn-sm" type="submit">Assign Me</button>
+                  <button className="btn btn-primary btn-sm" type="button" onClick={() => assignWork(item)}>Assign Me</button>
                 }
                 {
                   props.currentUser.userType=="Admin" && 
                   <button className="btn btn-danger btn-sm" type="button" onClick={() => deleteWork(item.id)}>Delete</button>
+                }
+                {
+                   item.owner.userId == props.currentUser.id && props.currentUser.userType=="Worker" &&
+                  <button className="btn btn-secondary btn-sm" type="button" onClick={() => deleteWork(item.id)}>Done</button>
                 }
                 </td>
             </tr>           
         )}
       </tbody>
     </table>
-    <button className="btn btn-success btn-sm" type="submit" onClick={(e) => setModal(true)}>Add New</button>
+    {
+      props.currentUser.userType == "Admin" &&
+      <button className="btn btn-success btn-sm" type="submit" onClick={(e) => setModal(true)}>Add New</button>
+    }
     </div>}
     <AddWork show={showModal} setModal={setModal} saveWork={saveWork} />
     </div>

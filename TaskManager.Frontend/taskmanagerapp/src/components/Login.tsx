@@ -4,7 +4,7 @@ import { useState } from 'react';
 const Login = (props: any) => {
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
-
+document.title = "Task Manager App";
   return (
     <div className="Auth-form-container">
       <form className="Auth-form"

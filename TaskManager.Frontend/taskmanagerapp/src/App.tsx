@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import WorkList from './components/WorkList';
 import ApiServices from './services/ApiServices';
@@ -12,8 +11,6 @@ function App() {
   const [isLogin, setLogin] = useState(false);
   const [user, setUser] = useState();
   const login = async (email:string, password:string) => {
-    console.log("email",email);
-    console.log("password",password);
     let loginUser: User = {Email:email,Password:password};
     apiServices
         .GetUser(loginUser)
@@ -21,7 +18,6 @@ function App() {
           if(data.status == 200)
           {
             setLogin(true);
-            console.log('Login user: ', data.data);   
             setUser(data.data);      
           }
           else

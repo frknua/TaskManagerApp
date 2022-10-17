@@ -30,4 +30,9 @@ export default class ApiServices {
   {
     return axiosServices.delete(Configurations.Work + "/"+id,{});
   }
+  
+  UpdateWork(work: Work)
+  {
+    return axiosServices.put(Configurations.Work, work);
+  }
 }
